@@ -238,6 +238,14 @@ on boot
     chown system system /persist/speccfg/submask
     chown system system /persist/speccfg/partition
 
+    # Tri-state key
+    chown root system /proc/tri-state-key/keyCode_top
+    chmod 0660 /proc/tri-state-key/keyCode_top
+    chown root system /proc/tri-state-key/keyCode_middle
+    chmod 0660 /proc/tri-state-key/keyCode_middle
+    chown root system /proc/tri-state-key/keyCode_bottom
+    chmod 0660 /proc/tri-state-key/keyCode_bottom
+
 service dashd /sbin/dashd
     class core
     #critical
