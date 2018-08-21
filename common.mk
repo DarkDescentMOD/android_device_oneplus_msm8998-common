@@ -463,5 +463,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini \
     $(LOCAL_PATH)/wifi/wifi_concurrency_cfg.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wifi_concurrency_cfg.txt
 
+# Unofficial build ID
+TARGET_UNOFFICIAL_BUILD_ID := DarkDescentMOD
+
 # Inherit from oppo-common
 $(call inherit-product, device/oppo/common/common.mk)
