@@ -1,9 +1,7 @@
 on init
     # Disable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 0
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 0
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 0
-
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 0
     write /sys/module/lpm_levels/parameters/sleep_disabled Y
 
     write /dev/stune/foreground/schedtune.sched_boost_no_override 1
@@ -34,11 +32,10 @@ on boot
     write /dev/cpuset/system-background/cpus 0-7
 
 on charger
+    wait /dev/block/platform/soc/${ro.boot.bootdevice}
     # Enable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
-
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
     write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # disable thermal core control
@@ -76,9 +73,9 @@ on property:sys.boot_completed=1
     write /sys/block/sda/queue/iostats 1
 
     # Enable UFS powersaving
-    write /sys/devices/soc/1da4000.ufshc/clkscale_enable 1
-    write /sys/devices/soc/1da4000.ufshc/clkgate_enable 1
-    write /sys/devices/soc/1da4000.ufshc/hibern8_on_idle_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
+    write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # disable thermal core control until CPU is configured
     write /sys/module/msm_thermal/core_control/enabled 0
@@ -159,7 +156,7 @@ on property:sys.boot_completed=1
 
     write /sys/class/devfreq/soc:qcom,mincpubw/governor "cpufreq"
 
-    # Setup power retention
+    # Disable retention
     write /sys/module/lpm_levels/system/pwr/cpu0/ret/idle_enabled N
     write /sys/module/lpm_levels/system/pwr/cpu1/ret/idle_enabled N
     write /sys/module/lpm_levels/system/pwr/cpu2/ret/idle_enabled N
@@ -172,7 +169,6 @@ on property:sys.boot_completed=1
     write /sys/module/lpm_levels/system/pwr/pwr-l2-ret/idle_enabled N
     write /sys/module/lpm_levels/system/perf/perf-l2-dynret/idle_enabled N
     write /sys/module/lpm_levels/system/perf/perf-l2-ret/idle_enabled N
-    write /sys/module/lpm_levels/parameters/sleep_disabled N
 
     # Setup cpusets
     write /dev/cpuset/top-app/cpus 0-7
