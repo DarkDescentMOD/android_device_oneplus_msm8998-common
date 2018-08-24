@@ -246,6 +246,9 @@ on boot
     chown root system /proc/tri-state-key/keyCode_bottom
     chmod 0660 /proc/tri-state-key/keyCode_bottom
 
+    # Disable sweep2sleep by default
+    write /sys/sweep2sleep/sweep2sleep 0
+
 service dashd /sbin/dashd
     class core
     #critical
